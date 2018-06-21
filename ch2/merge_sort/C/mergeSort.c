@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<limits.h>
 
-int n;
 void printArray(int *A, int n) {
 	for(int i = 0; i < n; i++) {
 		printf("%d, ", A[i]);
@@ -62,6 +61,7 @@ void mergeSort(int *A, int p, int r) {
 
 int main() {
 	/* Obtain input from stdin, first number is length */
+	int n;
 	scanf("%d", &n);
 	
 	int A[n];

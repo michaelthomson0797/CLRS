@@ -18,7 +18,7 @@ int left(int i) {
 int right(int i) {
     return 2*i+1;
 }
-``` c
+```
 
 * There are two kinds of binary heaps: **max-heaps** and **min-heaps**
     * in a **max-heap**, the **max-heap property** is that for very node i, other tthan the root, A[parent(i)] >= A[i]
@@ -100,5 +100,57 @@ void heapsort(int* A) {
     * ExtractMax(S): removes and returns the element of S with the largest key
     * IncreaseKey(S,x,k): increase the value of element x's key to the new value k, which is assumed to be at least as large as x's current key value
 * Now we will implement each of these functions
-* Heap-Maximum is easy
+* Heap-Maximum is easy, as it only needs to return the first element in the heap
+
+``` c
+int heapMaximum(struct heap *h) {
+    return h->A[0];
+}
+```
+
+* The procedure heapExtractMax is done by saving the first element in the heap, moving the bottom element to the top, reducing the heap size, then heapifying the top element
+
+``` c
+int heapExtractMax(struct heap *h) {
+    if (h->heapSize < 1) {
+        // heap underflow
+    }
+
+    int max = h->A[0];
+    h->A[0] = h->A[h->heapSize];
+    h->heapSize = h->heapSize - 1;
+    maxHeapify(h, 0);
+    return max;
+}
+```
+
+* The procedure heapIncreaseKey begins by updating the key of element at given index i.
+* Because increasing A[i] might violate the max-heap property the procedure, similar to insertion sort, traverses from this node toward the root to find a proper place for the key.
+* This is done by replacing the node with its parent until it is no longer smaller.
+
+``` c
+heapIncreaseKey(struct heap *h, int i, int key) {
+    if (key < h->A[i]) {
+        //error: new key is smaller than current key
+    }
+
+    h->A[i] = key;
+    while(i > 0 && h->A[parent(i)] < h->A[i]) {
+        swap(h, i, parent(i));
+        i = parent(i);
+    }
+}
+```
+
+* The Procedure heapInsert takes as an input a key of the new element to be inserted into heap A
+* It begins by first expanding the heap by adding to the tree a new leaf whose key is -inf.
+* heapIncreaseKey is then called on the new element to correct the max-heap property
+
+``` c
+maxHeapInsert(struct heap *h, int key) {
+    h->heapSize = h->heapSize + 1;
+    h->A[h->heapSize] = INT_MIN;
+    heapIncreaseKey(h, h->heapSize, key);
+}
+```
 

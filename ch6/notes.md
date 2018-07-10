@@ -6,7 +6,7 @@
 * The root of the tree is A[1]
 * Given the index of a node, we can easily find the parent, left child, and right child:
 
-```C
+``` c
 int parent(int i) {
     return i/2;
 }
@@ -18,13 +18,13 @@ int left(int i) {
 int right(int i) {
     return 2*i+1;
 }
-```
+``` c
 
 * There are two kinds of binary heaps: **max-heaps** and **min-heaps**
     * in a **max-heap**, the **max-heap property** is that for very node i, other tthan the root, A[parent(i)] >= A[i]
     * A **min-heap** is organized in the opposite way; the **min-heap property** is that for every node i other than the root, A[parent(i)] <= A[i]
 * Viewing a heap as a tree, we define the **height** of a node in a heap to be the number of edges on the longest simple downward path from the node to a leaf
-* We define the height of a tree as the height of it's root
+* We define the height of a tree as the height of its root
 * Since it is a binary tree, its height is Omega(lg n)
 The remainder of the chapter will focus on basic procedures on heaps
 
@@ -33,7 +33,7 @@ The remainder of the chapter will focus on basic procedures on heaps
 * its inputs are an array A and an index i into the array
 * max-heapify letes the value at A[i] "float down" in the max-heap sot hat the subtree rooted at i obeys the max-heap property
 
-```C
+``` c
 void maxHeapify(int* A, int i) {
     int largest
     int l = left(i);
@@ -42,6 +42,7 @@ void maxHeapify(int* A, int i) {
     if(l <= A.heapSize && A[l] > A[i]) {
         largest = l;
     else largest = i;
+    }
 
     if(r <= A.heapSize && A[r] > A[largest]) {
         largest = r;
@@ -49,10 +50,11 @@ void maxHeapify(int* A, int i) {
 
     if(largest != i) {
         swap(A, i, largest);
-        maxHeapify(A, largest)
+        maxHeapify(A, largest);
     }
 }
 ```
+
 * The largest of A[left(i)], A[i], and A[right(i)] is determined and stored in _largest_.
     * If A[i] is the largest, the max-heap property is already held
     * Otherwise, one of the two children has the largest element and is swapped with A[i]
@@ -63,7 +65,7 @@ void maxHeapify(int* A, int i) {
 * We can use the procedure maxHeapify in a bottom-up manner to convert an array into a max-heap
 * The procedure buildMaxHeap goes through all nodes which arent leaves and runs maxHeapify on them
 
-```C
+``` c
 void buildMaxHeap(int* A) {
     A.heapSize = A.length
     for(int i = A.length/2; i >= 1; i--) {
@@ -78,7 +80,7 @@ void buildMaxHeap(int* A) {
 * We can now dispose of node n from the heap by simply decrementing A.heapSize
 * Then call maxHeapify on the new root
 
-```C
+``` c
 void heapsort(int* A) {
     buildMaxHeap(A);
     for(int i = A.length; i >= 2; i--) {
@@ -88,3 +90,15 @@ void heapsort(int* A) {
     }
 }
 ```
+
+## 6.5 Priority Queues
+* As with heaps, priority queues come in two forms: max and min
+* A **Priority Queue** is a data structure for maintaining a set S of elements, each with associated value called a **key**
+* This supports the following operations:
+    * Insert(S,x): inserts element x into set S, which is equivelant to the operation S = S union {x}
+    * Maximum(S): returns the element S with the largest key
+    * ExtractMax(S): removes and returns the element of S with the largest key
+    * IncreaseKey(S,x,k): increase the value of element x's key to the new value k, which is assumed to be at least as large as x's current key value
+* Now we will implement each of these functions
+* Heap-Maximum is easy
+

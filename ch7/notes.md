@@ -32,3 +32,5 @@ int partition(int *A, int p, int r) {
     return i+1;
 }
 ```
+
+* Partition always selects an element x = A[r] as a **pivot** element around which to partition the subarray A[p..r]

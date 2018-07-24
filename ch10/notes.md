@@ -34,3 +34,46 @@ int pop(struct Stack* stack) {
     }
 }
 ```
+### Queues
+* We call the insert operation enqueue, and the delete operation dequeue
+* The FIFO property of a queue causes it to operate like a line of customers
+* The queue has a **head** and a **tail**
+* When an element is queued, it takes its place at the tail of the queue
+* the element dequeued is always the one at the head of the queue
+* when head = tail, the queue is empty.
+* when head = tail+1, or both head = 1 and tail = length, the queue is full
+
+```c
+int isEmpty(struct Queue* queue)
+{   return queue->head == queue->tail; }
+
+int isFull(struct Queue* queue)
+{   return (queue->head == queue->tail+1) || (queue->head == 0 && queue->tail == queue.capacity-1; }
+
+int enqueue(struct Queue* queue, int x)
+{ 
+    if(isFull(queue)) {
+        return;
+    }
+    queue->array[queue->tail] = x;
+    if(queue->tail == queue->capacity) {
+        queue->tail = 0;
+    } else {
+        queue->tail++;
+    }
+}
+
+int dequeue(struct Queue* queue, int x)
+{
+    if(isEmpty(queue)) {
+        return;
+    }
+    int x = queue->array[queue->head];
+    if(queue->head == queue->capacity-1) {
+        queue->head = 0;
+    } else {
+        queue->head++;
+    }
+    return x;
+}
+``` 

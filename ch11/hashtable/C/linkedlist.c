@@ -33,15 +33,21 @@ int insert(struct Node** head, int key)
     (*head) = new_node;
 }
 
-int delete(struct Node** head, int key)
+void delete(struct Node** head, int key)
 {
     struct Node* x = find(head, key);
     if(x == NULL) {
-        return 0;
+        return;
     }
-    x->prev->next = x->next;
-    x->next->prev = x->prev;
-    return 1;
+    if(x->prev != NULL) {
+        x->prev->next = x->next;
+    } else {
+        *head = x->next;
+    }
+    if(x->next != NULL) {
+       x->next->prev = x->prev;
+    }
+    return;
 }
 
 void printLinkedList(struct Node* head) 
@@ -50,22 +56,4 @@ void printLinkedList(struct Node* head)
         printf("%d ", x->key);
     }
     printf("\n");
-}
-
-int main()
-{
-    struct Node* head = NULL;
-    
-    /* testing insertion */
-    insert(&head, 1);
-    insert(&head, 2);
-    insert(&head, 3);
-    insert(&head, 4);
-    insert(&head, 5);
-    printLinkedList(head);
-
-    /* testing deletion */
-    delete(&head, 4);
-    delete(&head, 3);
-    printLinkedList(head);
 }
